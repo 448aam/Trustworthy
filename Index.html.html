@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Rulebook - Premium Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #a8a8a8;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border: none;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .editable {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            min-height: 100px;
+            line-height: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        .editable:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .editable:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00dbde;
+            box-shadow: 0 0 20px rgba(0, 219, 222, 0.3);
+        }
+
+        .sub-section {
+            margin: 20px 0;
+        }
+
+        .sub-section h3 {
+            color: #00dbde;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .rule-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #fc00ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        /* Premium Rule Cards */
+        .premium-rule-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .premium-rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 219, 222, 0.2);
+            border-color: rgba(0, 219, 222, 0.5);
+        }
+
+        .premium-rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+        }
+
+        .rule-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(0, 219, 222, 0.3);
+        }
+
+        .golden-rule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .golden-rule-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid transparent;
+            background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), 
+                              linear-gradient(135deg, #00dbde, #fc00ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            transition: all 0.3s ease;
+        }
+
+        .golden-rule-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 219, 222, 0.3);
+        }
+
+        .golden-rule-item strong {
+            display: block;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rule-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 219, 222, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+        }
+
+        .delete-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            float: right;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #cc0000;
+            transform: scale(1.1);
+        }
+
+        .note-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .note-date {
+            color: #00dbde;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        /* Task Board Styles */
+        .board-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            min-height: 400px;
+        }
+
+        .board-column {
+            flex: 0 0 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .board-column h4 {
+            color: #00dbde;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: move;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 219, 222, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .task-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .task-priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .priority-high {
+            background: #ff4444;
+            color: white;
+        }
+
+        .priority-medium {
+            background: #ff8800;
+            color: white;
+        }
+
+        .priority-low {
+            background: #00c851;
+            color: white;
+        }
+
+        .task-delete {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: transparent;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .task-delete:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .add-task-form {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .add-task-form input, .add-task-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .add-task-form button {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #00dbde;
+            background: rgba(0, 219, 222, 0.1);
+        }
+
+        /* Save/Load Buttons */
+        .control-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 219, 222, 0.5);
+        }
+
+        .save-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #00c851, #00ff00);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            animation: slideIn 0.5s ease;
+            z-index: 2000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Premium File Manager Styles */
+        .file-manager {
+            background: linear-gradient(135deg, rgba(0, 219, 222, 0.1) 0%, rgba(252, 0, 255, 0.1) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .file-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 219, 222, 0.3);
+            border-color: #00dbde;
+        }
+
+        .file-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 219, 222, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .file-card:hover::before {
+            animation: shine 0.5s ease;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translateY(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(45deg) translateY(100%);
+                opacity: 0;
+            }
+        }
+
+        .file-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .file-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .file-date {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .file-btn {
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .file-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .file-btn.delete {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .file-btn.delete:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .file-upload {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #00dbde;
+            background: rgba(0, 219, 222, 0.1);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            cursor: pointer;
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upload-label:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 219, 222, 0.5);
+        }
+
+        .file-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            overflow: auto;
+        }
+
+        .file-viewer-content {
+            background: #1a1a1a;
+            margin: 20px auto;
+            padding: 30px;
+            max-width: 90%;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .close-viewer {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-viewer:hover {
+            color: #ff4444;
+            transform: scale(1.2);
+        }
+
+        .article-categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .category-tag:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #00dbde;
+        }
+
+        .category-tag.active {
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            border: none;
+        }
+
+        /* মোবাইল রেসপন্সিভ */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .nav-btn {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Trading Rulebook</h1>
+            <p><strong>Discipline is following your rules, not your feelings.</strong></p>
+            <p>If your trading plan has no rules, you're gambling – not trading.</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('major-rules')">Major Rules</button>
+            <button class="nav-btn" onclick="showSection('risk-management')">Risk Management</button>
+            <button class="nav-btn" onclick="showSection('psychology')">Psychology</button>
+            <button class="nav-btn" onclick="showSection('time-window')">Time Window</button>
+            <button class="nav-btn" onclick="showSection('entry-criteria')">Entry Criteria</button>
+            <button class="nav-btn" onclick="showSection('exit-criteria')">Exit Criteria</button>
+            <button class="nav-btn" onclick="showSection('articles')">Articles</button>
+            <button class="nav-btn" onclick="showSection('notes')">My Notes</button>
+        </div>
+
+        <!-- Major Rules Section -->
+        <div id="major-rules" class="section active">
+            <h2>Major Rules</h2>
+            
+            <div class="sub-section">
+                <h3>⚡ মৌলিক নিয়মাবলী</h3>
+                
+                <div class="premium-rule-card">
+                    <div class="rule-number">1</div>
+                    <div class="editable" contenteditable="true">
+                        <strong style="color: #00dbde;">রিস্ক ম্যানেজমেন্ট</strong>
+                        <br>প্রতিটি ট্রেডে সর্বোচ্চ 2% রিস্ক নিবেন। এটি আপনার একাউন্টকে বড় ক্ষতি থেকে রক্ষা করবে।
+                    </div>
+                </div>
+
+                <div class="premium-rule-card">
+                    <div class="rule-number">2</div>
+                    <div class="editable" contenteditable="true">
+                        <strong style="color: #fc00ff;">ইমোশনাল কন্ট্রোল</strong>
+                        <br>ইমোশনাল ট্রেডিং থেকে বিরত থাকুন। Fear এবং Greed হলো trader এর সবচেয়ে বড় শত্রু।
+                    </div>
+                </div>
+
+                <div class="premium-rule-card">
+                    <div class="rule-number">3</div>
+                    <div class="editable" contenteditable="true">
+                        <strong style="color: #00dbde;">ট্রেডিং প্ল্যান</strong>
+                        <br>ট্রেডিং প্ল্যান ছাড়া কখনো ট্রেড করবেন না। Plan your trade, trade your plan!
+                    </div>
+                </div>
+
+                <div class="premium-rule-card">
+                    <div class="rule-number">4</div>
+                    <div class="editable" contenteditable="true">
+                        <strong style="color: #fc00ff;">টার্গেট ও স্টপ লস</strong>
+                        <br>প্রফিট টার্গেট এবং স্টপ লস সবসময় সেট করুন। Never hope, always plan!
+                    </div>
+                </div>
+
+                <div class="premium-rule-card">
+                    <div class="rule-number">5</div>
+                    <div class="editable" contenteditable="true">
+                        <strong style="color: #00dbde;">ট্রেন্ড ফলো করুন</strong>
+                        <br>মার্কেট ট্রেন্ডের বিপরীতে ট্রেড করবেন না। The trend is your friend until it ends!
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>🏆 Golden Rules</h3>
+                <div class="golden-rule-grid">
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">🎯</span>
+                        <strong>Discipline > Profit</strong>
+                        <span>নিয়ম মেনে ছোট প্রফিট > নিয়ম ভেঙে বড় প্রফিট</span>
+                    </div>
+                    
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">💎</span>
+                        <strong>Quality > Quantity</strong>
+                        <span>১০টি খারাপ ট্রেডের চেয়ে ১টি ভালো ট্রেড</span>
+                    </div>
+                    
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">⏰</span>
+                        <strong>Patience is Key</strong>
+                        <span>সঠিক সুযোগের জন্য অপেক্ষা করুন</span>
+                    </div>
+                    
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">🚫</span>
+                        <strong>No Revenge Trade</strong>
+                        <span>লস রিকভার করতে তাড়াহুড়া করবেন না</span>
+                    </div>
+                    
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">📝</span>
+                        <strong>Journal Everything</strong>
+                        <span>প্রতিটি ট্রেড রেকর্ড করুন, শিখুন</span>
+                    </div>
+                    
+                    <div class="golden-rule-item">
+                        <span class="rule-icon">🧘</span>
+                        <strong>Stay Calm</strong>
+                        <span>মার্কেট সবসময় থাকবে, তাড়া নেই</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('major-rules')">+ নতুন রুল যোগ করুন</button>
+        </div>
+
+        <!-- Risk Management Section -->
+        <div id="risk-management" class="section">
+            <h2>Risk Management</h2>
+            
+            <div class="sub-section">
+                <h3>পজিশন সাইজিং</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- পজিশন সাইজিং রুলস -->
+                    • প্রতি ট্রেডে সর্বোচ্চ রিস্ক: 2%
+                    <br>• মাসিক সর্বোচ্চ ড্রডাউন: 6%
+                    <br>• Risk-Reward Ratio: Minimum 1:2
+                    <br>• কখনো একটি ট্রেডে সব ক্যাপিটাল ব্যবহার করবেন না
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>স্টপ লস স্ট্র্যাটেজি</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- স্টপ লস নিয়ম -->
+                    • Technical Stop Loss: Support/Resistance এর নিচে/উপরে
+                    <br>• Percentage Stop: Entry price থেকে 2-3%
+                    <br>• Time Stop: 3 দিনের মধ্যে মুভ না হলে exit
+                    <br>• Trailing Stop: 50% প্রফিটের পর ব্যবহার করুন
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('risk-management')">+ নতুন রিস্ক রুল যোগ করুন</button>
+        </div>
+
+        <!-- Psychology Section -->
+        <div id="psychology" class="section">
+            <h2>Trading Psychology</h2>
+            
+            <div class="sub-section">
+                <h3>মানসিক নিয়ন্ত্রণ</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- মানসিক নিয়ন্ত্রণের টিপস -->
+                    ✓ FOMO (Fear of Missing Out) এড়িয়ে চলুন
+                    <br>✓ লোভ এবং ভয় নিয়ন্ত্রণ করুন
+                    <br>✓ প্রতিটি ট্রেড একটি স্বতন্ত্র ইভেন্ট
+                    <br>✓ লস হলে রিভেঞ্জ ট্রেড করবেন না
+                    <br>✓ উইনিং স্ট্রিকে অতিরিক্ত আত্মবিশ্বাসী হবেন না
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>ট্রেডিং রুটিন</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- ট্রেডিং রুটিন -->
+                    1. সকালে মার্কেট এনালাইসিস (30 মিনিট)
+                    <br>2. ট্রেডিং প্ল্যান তৈরি
+                    <br>3. মেডিটেশন/এক্সারসাইজ
+                    <br>4. ট্রেড এক্সিকিউশন
+                    <br>5. জার্নাল এন্ট্রি
+                    <br>6. End of day review
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('psychology')">+ নতুন সাইকোলজি টিপ যোগ করুন</button>
+        </div>
+
+        <!-- Time Window Section -->
+        <div id="time-window" class="section">
+            <h2>Time Window</h2>
+            
+            <div class="sub-section">
+                <h3>ট্রেডিং সেশন</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- ট্রেডিং টাইম উইন্ডো -->
+                    📍 Asian Session: 6:00 AM - 3:00 PM (BD Time)
+                    <br>📍 London Session: 1:00 PM - 10:00 PM (BD Time)
+                    <br>📍 New York Session: 6:30 PM - 3:30 AM (BD Time)
+                    <br>
+                    <br>🔸 Best Trading Hours: London-NY Overlap (6:30 PM - 10:00 PM)
+                    <br>🔸 Avoid: Major news release times
+                    <br>🔸 Friday: Close positions before weekend
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>টাইমফ্রেম স্ট্র্যাটেজি</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- টাইমফ্রেম নিয়ম -->
+                    • Scalping: 1m, 5m charts
+                    <br>• Day Trading: 15m, 1H charts
+                    <br>• Swing Trading: 4H, Daily charts
+                    <br>• Position Trading: Daily, Weekly charts
+                    <br>
+                    <br>নিয়ম: Higher timeframe দিয়ে trend দেখুন, lower timeframe এ entry নিন
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('time-window')">+ নতুন টাইম রুল যোগ করুন</button>
+        </div>
+
+        <!-- Entry Criteria Section -->
+        <div id="entry-criteria" class="section">
+            <h2>Entry Criteria</h2>
+            
+            <div class="sub-section">
+                <h3>টেকনিক্যাল এন্ট্রি সিগন্যাল</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- এন্ট্রি ক্রাইটেরিয়া -->
+                    ✅ Trend Confirmation:
+                    - EMA Cross (20/50)
+                    - Price above/below 200 MA
+                    - Higher highs & higher lows (Uptrend)
+                    
+                    <br><br>✅ Momentum Indicators:
+                    - RSI: 30-70 range
+                    - MACD crossover
+                    - Volume confirmation
+                    
+                    <br><br>✅ Chart Patterns:
+                    - Breakout from consolidation
+                    - Trendline bounce
+                    - Support/Resistance test
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>এন্ট্রি চেকলিস্ট</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- এন্ট্রি চেকলিস্ট -->
+                    ☐ Trend direction clear?
+                    <br>☐ Risk-Reward minimum 1:2?
+                    <br>☐ Major support/resistance identified?
+                    <br>☐ News check done?
+                    <br>☐ Position size calculated?
+                    <br>☐ Stop loss level decided?
+                    <br>☐ Mental state calm?
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('entry-criteria')">+ নতুন এন্ট্রি রুল যোগ করুন</button>
+        </div>
+
+        <!-- Exit Criteria Section -->
+        <div id="exit-criteria" class="section">
+            <h2>Exit Criteria</h2>
+            
+            <div class="sub-section">
+                <h3>প্রফিট টার্গেট</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- এক্সিট ক্রাইটেরিয়া -->
+                    🎯 Fixed Target:
+                    - TP1: 1:1 Risk-Reward (50% position close)
+                    - TP2: 1:2 Risk-Reward (30% position close)
+                    - TP3: 1:3 Risk-Reward (20% position close)
+                    
+                    <br><br>🎯 Dynamic Exit:
+                    - Resistance level hit
+                    - Trend reversal signal
+                    - Momentum divergence
+                    - Volume decreasing
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>স্টপ লস ম্যানেজমেন্ট</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- স্টপ লস ম্যানেজমেন্ট -->
+                    🛡️ Initial Stop Loss:
+                    - Below recent swing low (Long)
+                    - Above recent swing high (Short)
+                    - ATR based stop
+                    
+                    <br><br>🛡️ Trailing Stop:
+                    - Move to breakeven at 1:1
+                    - Trail by 50% of profit
+                    - Use parabolic SAR
+                    - Follow 20 EMA
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewRule('exit-criteria')">+ নতুন এক্সিট রুল যোগ করুন</button>
+        </div>
+
+        <!-- Articles Section -->
+        <div id="articles" class="section">
+            <h2>📚 Trading Knowledge Hub</h2>
+            
+            <!-- File Manager -->
+            <div class="file-manager">
+                <h3 style="text-align: center; margin-bottom: 20px;">
+                    <span style="background: linear-gradient(45deg, #00dbde, #fc00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        My Article Collection
+                    </span>
+                </h3>
+                
+                <!-- Categories -->
+                <div class="article-categories">
+                    <div class="category-tag active" onclick="filterArticles('all')">All Articles</div>
+                    <div class="category-tag" onclick="filterArticles('strategy')">Strategy</div>
+                    <div class="category-tag" onclick="filterArticles('analysis')">Analysis</div>
+                    <div class="category-tag" onclick="filterArticles('psychology')">Psychology</div>
+                    <div class="category-tag" onclick="filterArticles('tools')">Tools</div>
+                </div>
+
+                <!-- File Upload Area -->
+                <div class="file-upload">
+                    <div class="file-icon">📁</div>
+                    <p style="margin: 10px 0;">আপনার HTML ফাইল এখানে আপলোড করুন</p>
+                    <label for="file-input" class="upload-label">
+                        + Upload HTML File
+                    </label>
+                    <input type="file" id="file-input" accept=".html" onchange="handleFileUpload(event)" />
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #888;">
+                        অথবা ড্র্যাগ করে এখানে ফেলুন
+                    </p>
+                </div>
+
+                <!-- File Grid -->
+                <div class="file-grid" id="fileGrid">
+                    <!-- Example File Cards -->
+                    <div class="file-card" data-category="strategy">
+                        <div class="file-icon">📄</div>
+                        <div class="file-name">Scalping Strategy.html</div>
+                        <div class="file-date">23 July, 2025</div>
+                        <div class="file-actions">
+                            <button class="file-btn" onclick="viewFile('scalping')">👁️ View</button>
+                            <button class="file-btn" onclick="editFile('scalping')">✏️ Edit</button>
+                            <button class="file-btn delete" onclick="deleteFile('scalping')">🗑️</button>
+                        </div>
+                    </div>
+
+                    <div class="file-card" data-category="analysis">
+                        <div class="file-icon">📊</div>
+                        <div class="file-name">Market Analysis.html</div>
+                        <div class="file-date">20 July, 2025</div>
+                        <div class="file-actions">
+                            <button class="file-btn" onclick="viewFile('analysis')">👁️ View</button>
+                            <button class="file-btn" onclick="editFile('analysis')">✏️ Edit</button>
+                            <button class="file-btn delete" onclick="deleteFile('analysis')">🗑️</button>
+                        </div>
+                    </div>
+
+                    <!-- নতুন ফাইল এখানে যোগ হবে -->
+                </div>
+            </div>
+
+            <!-- Built-in Articles -->
+            <div class="sub-section">
+                <h3>📖 Quick Reference Articles</h3>
+                <div class="editable" contenteditable="true">
+                    <strong>🎯 The 3 Pillars of Successful Trading</strong>
+                    
+                    <br><br>1. <strong>Risk Management (40%)</strong>
+                    - Never risk more than you can afford to lose
+                    - Use proper position sizing
+                    - Always set stop losses
+                    
+                    <br><br>2. <strong>Trading Strategy (30%)</strong>
+                    - Have a clear entry and exit plan
+                    - Backtest your strategies
+                    - Stick to your system
+                    
+                    <br><br>3. <strong>Psychology (30%)</strong>
+                    - Control emotions
+                    - Accept losses as part of trading
+                    - Stay disciplined
+                    
+                    <br><br><strong>💡 Remember:</strong> "It's not about being right all the time, it's about being profitable over time."
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addNewArticle()">+ নতুন আর্টিকেল লিখুন</button>
+        </div>
+
+        <!-- File Viewer Modal -->
+        <div id="fileViewer" class="file-viewer">
+            <div class="file-viewer-content">
+                <span class="close-viewer" onclick="closeViewer()">&times;</span>
+                <div id="fileContent"></div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div id="notes" class="section">
+            <h2>My Trading Notes</h2>
+            
+            <div class="sub-section">
+                <h3>Quick Notes</h3>
+                <div id="notes-container">
+                    <!-- নোট এখানে যোগ হবে -->
+                </div>
+                
+                <textarea id="note-input" class="editable" placeholder="আপনার নোট/কমেন্ট এখানে লিখুন..." style="width: 100%; min-height: 100px; margin: 15px 0;"></textarea>
+                <button class="add-btn" onclick="addNote()">📝 নোট সেভ করুন</button>
+            </div>
+
+            <div class="sub-section">
+                <h3>Trade Journal</h3>
+                <div class="editable" contenteditable="true">
+                    <!-- ট্রেড জার্নাল -->
+                    📅 Date: ___________
+                    <br>💱 Pair: ___________
+                    <br>📊 Entry: ___________
+                    <br>🎯 Target: ___________
+                    <br>🛑 Stop Loss: ___________
+                    <br>📈 Result: ___________
+                    <br>💭 Lesson Learned: ___________
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>📋 Task Management Board</h3>
+                <div class="board-container" id="taskBoard">
+                    <!-- To Do Column -->
+                    <div class="board-column">
+                        <h4>📝 To Do</h4>
+                        <div class="drop-zone" id="todo-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <!-- Tasks will be added here -->
+                        </div>
+                        <div class="add-task-form">
+                            <input type="text" id="new-task-todo" placeholder="নতুন টাস্ক..." />
+                            <select id="priority-todo">
+                                <option value="low">Low Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                            <button class="add-btn" onclick="addTask('todo')">+ Add Task</button>
+                        </div>
+                    </div>
+
+                    <!-- In Progress Column -->
+                    <div class="board-column">
+                        <h4>🔄 In Progress</h4>
+                        <div class="drop-zone" id="progress-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <!-- Tasks will be moved here -->
+                        </div>
+                    </div>
+
+                    <!-- Completed Column -->
+                    <div class="board-column">
+                        <h4>✅ Completed</h4>
+                        <div class="drop-zone" id="completed-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <!-- Completed tasks here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔥 <strong>"The difference between a successful trader and a losing trader is DISCIPLINE."</strong></p>
+            <p>💪 Remember: Every professional trader was once a beginner who never gave up.</p>
+            <p>⚡ Your biggest enemy in trading is not the market - it's your own emotions.</p>
+        </div>
+
+        <!-- Save/Load Controls -->
+        <div class="control-buttons">
+            <button class="control-btn" onclick="saveAllData()">
+                💾 Save All Data
+            </button>
+            <button class="control-btn" onclick="loadAllData()">
+                📂 Load Saved Data
+            </button>
+            <button class="control-btn" onclick="downloadUpdatedFile()">
+                📥 Download Updated File
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // সেকশন দেখানোর ফাংশন
+        function showSection(sectionId) {
+            // সব সেকশন হাইড করা
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // সব বাটন থেকে active ক্লাস রিমুভ
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // সিলেক্টেড সেকশন শো করা
+            document.getElementById(sectionId).classList.add('active');
+            
+            // সিলেক্টেড বাটনে active ক্লাস এড করা
+            event.target.classList.add('active');
+        }
+
+        // নতুন রুল যোগ করার ফাংশন
+        function addNewRule(sectionId) {
+            const section = document.getElementById(sectionId);
+            const newSubSection = document.createElement('div');
+            newSubSection.className = 'sub-section';
+            newSubSection.innerHTML = `
+                <button class="delete-btn" onclick="deleteSection(this)">✕ Delete</button>
+                <h3 contenteditable="true">নতুন সেকশন টাইটেল (এডিট করুন)</h3>
+                <div class="editable" contenteditable="true">
+                    এখানে আপনার নতুন রুল/তথ্য লিখুন...
+                </div>
+            `;
+            
+            // Add button এর আগে insert করা
+            const addButton = section.querySelector('.add-btn');
+            section.insertBefore(newSubSection, addButton);
+        }
+
+        // সেকশন ডিলিট করার ফাংশন
+        function deleteSection(button) {
+            if(confirm('আপনি কি নিশ্চিত এই সেকশনটি ডিলিট করতে চান?')) {
+                button.parentElement.remove();
+            }
+        }
+
+        // নোট যোগ করার ফাংশন
+        function addNote() {
+            const noteInput = document.getElementById('note-input');
+            const noteText = noteInput.value.trim();
+            
+            if(noteText === '') {
+                alert('কিছু লিখুন প্রথমে!');
+                return;
+            }
+            
+            const notesContainer = document.getElementById('notes-container');
+            const noteItem = document.createElement('div');
+            noteItem.className = 'note-item';
+            
+            const date = new Date().toLocaleString('bn-BD');
+            
+            noteItem.innerHTML = `
+                <button class="delete-btn" onclick="deleteNote(this)">✕ Delete</button>
+                <div class="note-date">${date}</div>
+                <div class="editable" contenteditable="true">${noteText}</div>
+            `;
+            
+            notesContainer.appendChild(noteItem);
+            noteInput.value = '';
+            
+            // স্ক্রোল করে নতুন নোটে যাওয়া
+            noteItem.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // নোট ডিলিট করার ফাংশন
+        function deleteNote(button) {
+            if(confirm('এই নোটটি ডিলিট করতে চান?')) {
+                button.parentElement.remove();
+            }
+        }
+
+        // Enter key দিয়ে নোট সেভ করা
+        document.addEventListener('DOMContentLoaded', function() {
+            const noteInput = document.getElementById('note-input');
+            if(noteInput) {
+                noteInput.addEventListener('keypress', function(e) {
+                    if(e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        addNote();
+                    }
+                });
+            }
+        });
+
+        // Task Board Functions
+        let taskIdCounter = 0;
+
+        function addTask(column) {
+            const input = document.getElementById(`new-task-${column}`);
+            const priority = document.getElementById(`priority-${column}`);
+            const taskText = input.value.trim();
+            
+            if (taskText === '') {
+                alert('টাস্কের নাম লিখুন!');
+                return;
+            }
+            
+            const taskId = `task-${taskIdCounter++}`;
+            const taskCard = document.createElement('div');
+            taskCard.className = 'task-card';
+            taskCard.id = taskId;
+            taskCard.draggable = true;
+            taskCard.ondragstart = drag;
+            
+            const priorityClass = `priority-${priority.value}`;
+            const priorityText = priority.value.charAt(0).toUpperCase() + priority.value.slice(1);
+            
+            taskCard.innerHTML = `
+                <button class="task-delete" onclick="deleteTask('${taskId}')">✕</button>
+                <span class="task-priority ${priorityClass}">${priorityText}</span>
+                <div>${taskText}</div>
+                <div style="font-size: 0.8em; color: #888; margin-top: 5px;">
+                    ${new Date().toLocaleDateString('bn-BD')}
+                </div>
+            `;
+            
+            document.getElementById(`${column}-tasks`).appendChild(taskCard);
+            input.value = '';
+        }
+
+        function deleteTask(taskId) {
+            if (confirm('এই টাস্কটি ডিলিট করতে চান?')) {
+                document.getElementById(taskId).remove();
+            }
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.target.classList.add('dragging');
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            // Find the drop zone
+            let dropZone = ev.target;
+            while (dropZone && !dropZone.classList.contains('drop-zone')) {
+                dropZone = dropZone.parentElement;
+            }
+            
+            if (dropZone) {
+                dropZone.appendChild(draggedElement);
+                dropZone.classList.remove('drag-over');
+            }
+            
+            draggedElement.classList.remove('dragging');
+        }
+
+        // Remove drag-over class when leaving
+        document.addEventListener('dragleave', function(e) {
+            if (e.target.classList.contains('drop-zone')) {
+                e.target.classList.remove('drag-over');
+            }
+        });
+
+        // লোকাল স্টোরেজে ডেটা সেভ করা
+        function saveAllData() {
+            try {
+                // সব editable content সেভ করা
+                const editableElements = document.querySelectorAll('.editable');
+                const editableData = {};
+                editableElements.forEach((el, index) => {
+                    editableData[`editable_${index}`] = el.innerHTML;
+                });
+                
+                // সব h3 headers সেভ করা
+                const headers = document.querySelectorAll('h3[contenteditable="true"]');
+                const headerData = {};
+                headers.forEach((el, index) => {
+                    headerData[`header_${index}`] = el.innerHTML;
+                });
+                
+                // Notes সেভ করা
+                const notesContainer = document.getElementById('notes-container');
+                const notesData = notesContainer ? notesContainer.innerHTML : '';
+                
+                // Task Board সেভ করা
+                const taskBoard = document.getElementById('taskBoard');
+                const taskData = taskBoard ? taskBoard.innerHTML : '';
+                
+                // সব ডেটা একসাথে সেভ করা
+                const allData = {
+                    editableData,
+                    headerData,
+                    notesData,
+                    taskData,
+                    saveDate: new Date().toLocaleString('bn-BD')
+                };
+                
+                localStorage.setItem('tradingRulebook', JSON.stringify(allData));
+                
+                // সফল হলে নোটিফিকেশন দেখানো
+                showSaveNotification('✅ সব ডেটা সফলভাবে সেভ হয়েছে!');
+                
+            } catch (error) {
+                showSaveNotification('❌ সেভ করতে সমস্যা হয়েছে!', true);
+            }
+        }
+
+        // লোকাল স্টোরেজ থেকে ডেটা লোড করা
+        function loadAllData() {
+            try {
+                const savedData = localStorage.getItem('tradingRulebook');
+                if (!savedData) {
+                    showSaveNotification('⚠️ কোন সেভ করা ডেটা পাওয়া যায়নি!', true);
+                    return;
+                }
+                
+                const allData = JSON.parse(savedData);
+                
+                // Editable content লোড করা
+                const editableElements = document.querySelectorAll('.editable');
+                Object.keys(allData.editableData).forEach(key => {
+                    const index = parseInt(key.split('_')[1]);
+                    if (editableElements[index]) {
+                        editableElements[index].innerHTML = allData.editableData[key];
+                    }
+                });
+                
+                // Headers লোড করা
+                const headers = document.querySelectorAll('h3[contenteditable="true"]');
+                Object.keys(allData.headerData).forEach(key => {
+                    const index = parseInt(key.split('_')[1]);
+                    if (headers[index]) {
+                        headers[index].innerHTML = allData.headerData[key];
+                    }
+                });
+                
+                // Notes লোড করা
+                const notesContainer = document.getElementById('notes-container');
+                if (notesContainer && allData.notesData) {
+                    notesContainer.innerHTML = allData.notesData;
+                }
+                
+                // Task Board লোড করা
+                const taskBoard = document.getElementById('taskBoard');
+                if (taskBoard && allData.taskData) {
+                    taskBoard.innerHTML = allData.taskData;
+                }
+                
+                showSaveNotification(`✅ ডেটা লোড হয়েছে! (শেষ সেভ: ${allData.saveDate})`);
+                
+            } catch (error) {
+                showSaveNotification('❌ ডেটা লোড করতে সমস্যা হয়েছে!', true);
+            }
+        }
+
+        // সেভ নোটিফিকেশন দেখানো
+        function showSaveNotification(message, isError = false) {
+            const notification = document.createElement('div');
+            notification.className = 'save-notification';
+            if (isError) {
+                notification.style.background = 'linear-gradient(45deg, #ff4444, #cc0000)';
+            }
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        // Auto-save feature (প্রতি ৫ মিনিটে)
+        setInterval(() => {
+            saveAllData();
+        }, 300000); // 5 minutes
+
+        // পেজ লোড হলে ডেটা অটো লোড করা
+        window.addEventListener('load', () => {
+            const hasData = localStorage.getItem('tradingRulebook');
+            if (hasData) {
+                if (confirm('পূর্বের সেভ করা ডেটা পাওয়া গেছে। লোড করতে চান?')) {
+                    loadAllData();
+                }
+            }
+        });
+
+        // পেজ ছাড়ার আগে রিমাইন্ডার
+        window.addEventListener('beforeunload', (e) => {
+            const message = 'আপনি কি নিশ্চিত? সেভ না করলে পরিবর্তনগুলো হারিয়ে যেতে পারে!';
+            e.returnValue = message;
+            return message;
+        });
+
+        // File Manager Functions
+        let uploadedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = {
+                    id: Date.now(),
+                    name: file.name,
+                    content: e.target.result,
+                    date: new Date().toLocaleDateString('bn-BD'),
+                    category: 'tools'
+                };
+                
+                uploadedFiles.push(fileData);
+                localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                
+                addFileCard(fileData);
+                showSaveNotification('✅ ফাইল সফলভাবে আপলোড হয়েছে!');
+            };
+            
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function addFileCard(fileData) {
+            const fileGrid = document.getElementById('fileGrid');
+            const fileCard = document.createElement('div');
+            fileCard.className = 'file-card';
+            fileCard.setAttribute('data-category', fileData.category);
+            fileCard.setAttribute('data-id', fileData.id);
+            
+            fileCard.innerHTML = `
+                <div class="file-icon">📄</div>
+                <div class="file-name">${fileData.name}</div>
+                <div class="file-date">${fileData.date}</div>
+                <div class="file-actions">
+                    <button class="file-btn" onclick="viewFile('${fileData.id}')">👁️ View</button>
+                    <button class="file-btn" onclick="editFile('${fileData.id}')">✏️ Edit</button>
+                    <button class="file-btn delete" onclick="deleteFile('${fileData.id}')">🗑️</button>
+                </div>
+            `;
+            
+            fileGrid.appendChild(fileCard);
+        }
+
+        function viewFile(fileId) {
+            let content = '';
+            
+            // Check if it's a demo file
+            if (fileId === 'scalping') {
+                content = '<h1>Scalping Strategy Guide</h1><p>This is a demo scalping strategy article...</p>';
+            } else if (fileId === 'analysis') {
+                content = '<h1>Market Analysis Guide</h1><p>This is a demo market analysis article...</p>';
+            } else {
+                // Find uploaded file
+                const file = uploadedFiles.find(f => f.id == fileId);
+                if (file) {
+                    content = file.content;
+                }
+            }
+            
+            document.getElementById('fileContent').innerHTML = content;
+            document.getElementById('fileViewer').style.display = 'block';
+        }
+
+        function editFile(fileId) {
+            // এখানে এডিটর খুলবে
+            alert('এডিট ফিচার শীঘ্রই আসছে! আপাতত ফাইলটি ডাউনলোড করে এডিট করুন।');
+        }
+
+        function deleteFile(fileId) {
+            if (confirm('এই ফাইলটি ডিলিট করতে চান?')) {
+                // Remove from storage
+                uploadedFiles = uploadedFiles.filter(f => f.id != fileId);
+                localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                
+                // Remove from UI
+                const fileCard = document.querySelector(`[data-id="${fileId}"]`);
+                if (fileCard) fileCard.remove();
+                
+                showSaveNotification('✅ ফাইল ডিলিট হয়েছে!');
+            }
+        }
+
+        function closeViewer() {
+            document.getElementById('fileViewer').style.display = 'none';
+        }
+
+        function filterArticles(category) {
+            // Update active category
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter files
+            const fileCards = document.querySelectorAll('.file-card');
+            fileCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function addNewArticle() {
+            const section = document.getElementById('articles');
+            const newArticle = document.createElement('div');
+            newArticle.className = 'sub-section';
+            newArticle.innerHTML = `
+                <button class="delete-btn" onclick="deleteSection(this)">✕ Delete</button>
+                <h3 contenteditable="true">নতুন আর্টিকেল টাইটেল</h3>
+                <div class="editable" contenteditable="true">
+                    এখানে আপনার আর্টিকেল লিখুন...
+                </div>
+            `;
+            
+            const addButton = section.querySelector('.add-btn');
+            section.insertBefore(newArticle, addButton);
+        }
+
+        // Load uploaded files on page load
+        window.addEventListener('load', () => {
+            uploadedFiles.forEach(file => {
+                addFileCard(file);
+            });
+        });
+
+        // Download Updated File Function
+        function downloadUpdatedFile() {
+            try {
+                // সব ডেটা প্রথমে সেভ করা
+                saveAllData();
+                
+                // সম্পূর্ণ HTML content clone করা
+                const clonedDoc = document.documentElement.cloneNode(true);
+                
+                // DOCTYPE সহ সম্পূর্ণ HTML
+                const fullHTML = '<!DOCTYPE html>\n' + clonedDoc.outerHTML;
+                
+                // Blob তৈরি করা
+                const blob = new Blob([fullHTML], { type: 'text/html;charset=utf-8' });
+                
+                // Download link তৈরি করা
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'trading-rulebook-' + new Date().toLocaleDateString('en-GB').replace(/\//g, '-') + '.html';
+                
+                // ক্লিক সিমুলেট করা
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+                
+                showSaveNotification('📥 ফাইল ডাউনলোড হয়েছে! এটি দিয়ে পুরানো ফাইল replace করুন।');
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                showSaveNotification('❌ ডাউনলোড করতে সমস্যা হয়েছে!', true);
+            }
+        }
+
+        // Save All Data এবং Load Data দরকার কারণ:
+        // 1. Download করার আগে current state save করে
+        // 2. Browser refresh করলে data ফিরে পেতে
+        // 3. Accidental close থেকে রক্ষা পেতে
+
+        // Drag and Drop Support
+        const fileUpload = document.querySelector('.file-upload');
+        if (fileUpload) {
+            fileUpload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUpload.style.borderColor = '#00dbde';
+                fileUpload.style.background = 'rgba(0, 219, 222, 0.2)';
+            });
+            
+            fileUpload.addEventListener('dragleave', () => {
+                fileUpload.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                fileUpload.style.background = 'rgba(255, 255, 255, 0.05)';
+            });
+            
+            fileUpload.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUpload.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                fileUpload.style.background = 'rgba(255, 255, 255, 0.05)';
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type === 'text/html') {
+                    const input = document.getElementById('file-input');
+                    input.files = e.dataTransfer.files;
+                    handleFileUpload({ target: input });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
