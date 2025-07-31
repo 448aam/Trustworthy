@@ -714,7 +714,108 @@
             margin-bottom: 10px;
         }
 
-        /* Mobile Responsive */
+        /* Animation Styles */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animated-gradient {
+            background: linear-gradient(135deg, #667eea, #764ba2, #00dbde, #fc00ff);
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        .gradient-box {
+            background: linear-gradient(135deg, rgba(0, 219, 222, 0.1) 0%, rgba(252, 0, 255, 0.1) 100%);
+            border-radius: 10px;
+            border-left: 4px solid var(--info);
+            transition: all 0.3s ease;
+        }
+
+        .gradient-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 219, 222, 0.3);
+        }
+
+        .time-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .time-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .time-icon {
+            font-size: 40px;
+        }
+
+        .time-info {
+            flex: 1;
+        }
+
+        .time-display {
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
+
+        .best-time-card {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .best-time-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+            border-color: var(--info);
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .rule-item, .strategy-item, .psychology-item, .schedule-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--dark-surface-light);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .rule-item:hover, .strategy-item:hover, .psychology-item:hover, .schedule-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -819,6 +920,116 @@
         .toast.info .toast-icon {
             background: rgba(0, 219, 222, 0.2);
             color: var(--info);
+        }
+
+        .toast.warning .toast-icon {
+            background: rgba(255, 136, 0, 0.2);
+            color: var(--warning);
+        }
+
+        /* Animation Styles */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animated-gradient {
+            background: linear-gradient(135deg, #667eea, #764ba2, #00dbde, #fc00ff);
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        .gradient-box {
+            background: linear-gradient(135deg, rgba(0, 219, 222, 0.1) 0%, rgba(252, 0, 255, 0.1) 100%);
+            border-radius: 10px;
+            border-left: 4px solid var(--info);
+            transition: all 0.3s ease;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .gradient-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 219, 222, 0.3);
+        }
+
+        .time-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .time-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .time-icon {
+            font-size: 40px;
+        }
+
+        .time-info {
+            flex: 1;
+        }
+
+        .time-display {
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
+
+        .best-time-card {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .best-time-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+            border-color: var(--info);
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .rule-item, .strategy-item, .psychology-item, .schedule-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--dark-surface-light);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .rule-item:hover, .strategy-item:hover, .psychology-item:hover, .schedule-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -1043,44 +1254,29 @@
                     </div>
                     
                     <h3 style="margin: 20px 0 10px 0;">Recent Trading Activity</h3>
-                    <table class="journal-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Pair</th>
-                                <th>Type</th>
-                                <th>Entry</th>
-                                <th>Exit</th>
-                                <th>P&L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2025-07-30</td>
-                                <td>EUR/USD</td>
-                                <td>Buy</td>
-                                <td>1.0850</td>
-                                <td>1.0895</td>
-                                <td class="trade-profit">+$450</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-29</td>
-                                <td>GBP/JPY</td>
-                                <td>Sell</td>
-                                <td>188.50</td>
-                                <td>187.80</td>
-                                <td class="trade-profit">+$700</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-28</td>
-                                <td>USD/CHF</td>
-                                <td>Buy</td>
-                                <td>0.8650</td>
-                                <td>0.8620</td>
-                                <td class="trade-loss">-$300</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div id="tradingTableContainer">
+                        <table class="journal-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Pair</th>
+                                    <th>Type</th>
+                                    <th>Entry</th>
+                                    <th>Exit</th>
+                                    <th>P&L</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tradingDataBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn btn-secondary" onclick="refreshGoogleSheetData()" style="margin-top: 15px;">
+                        🔄 Refresh Data
+                    </button>
                 </div>
             </div>
 
@@ -1092,28 +1288,40 @@
                             <span>📋</span>
                             <span>Trading Rules</span>
                         </h2>
-                        <button class="btn btn-primary" onclick="addNewRule()">+ Add Rule</button>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="addNewRule()">+ Add Rule</button>
+                            <button class="btn btn-secondary" onclick="saveRules()">💾 Save Rules</button>
+                        </div>
                     </div>
                     
-                    <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
-                        <h3>My Trading Rules</h3>
-                        <ol>
-                            <li>Never risk more than 2% per trade</li>
-                            <li>Always use stop loss</li>
-                            <li>Wait for confirmation before entry</li>
-                            <li>Don't revenge trade</li>
-                            <li>Follow the trend</li>
-                            <li>Keep a trading journal</li>
-                            <li>Review trades weekly</li>
-                        </ol>
+                    <div id="rulesContainer" style="margin-top: 20px;">
+                        <div class="rule-item" draggable="true" ondragstart="dragRule(event)" ondragover="allowDropRule(event)" ondrop="dropRule(event)" data-rule-id="rule-1">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="cursor: move; font-size: 20px;">☰</span>
+                                <h3 contenteditable="true" style="flex: 1; background: none; border: none; font-size: 1.2em; color: var(--info);">Risk Management Rules</h3>
+                                <button onclick="deleteRule(this)" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                            </div>
+                            <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
+                                1. Never risk more than 2% per trade
+                                <br>2. Always use stop loss
+                                <br>3. Risk:Reward minimum 1:2
+                                <br>4. Maximum daily loss: 6%
+                            </div>
+                        </div>
                         
-                        <h3>Entry Criteria</h3>
-                        <ul>
-                            <li>Clear trend direction</li>
-                            <li>Support/Resistance levels identified</li>
-                            <li>Risk:Reward minimum 1:2</li>
-                            <li>No major news events within 30 minutes</li>
-                        </ul>
+                        <div class="rule-item" draggable="true" ondragstart="dragRule(event)" ondragover="allowDropRule(event)" ondrop="dropRule(event)" data-rule-id="rule-2">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="cursor: move; font-size: 20px;">☰</span>
+                                <h3 contenteditable="true" style="flex: 1; background: none; border: none; font-size: 1.2em; color: var(--info);">Entry Criteria</h3>
+                                <button onclick="deleteRule(this)" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                            </div>
+                            <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
+                                1. Clear trend direction
+                                <br>2. Support/Resistance levels identified
+                                <br>3. No major news events within 30 minutes
+                                <br>4. Confirmation from multiple timeframes
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1126,27 +1334,42 @@
                             <span>🎯</span>
                             <span>Trading Strategies</span>
                         </h2>
-                        <button class="btn btn-primary" onclick="addNewStrategy()">+ Add Strategy</button>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="addNewStrategy()">+ Add Strategy</button>
+                            <button class="btn btn-secondary" onclick="saveStrategies()">💾 Save Strategies</button>
+                        </div>
                     </div>
                     
-                    <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
-                        <h3>Scalping Strategy</h3>
-                        <p>Time Frame: 1m, 5m</p>
-                        <ul>
-                            <li>Use 20 EMA and 50 EMA crossover</li>
-                            <li>RSI confirmation (oversold/overbought)</li>
-                            <li>Quick entries and exits</li>
-                            <li>Target: 5-10 pips</li>
-                        </ul>
+                    <div id="strategiesContainer" style="margin-top: 20px;">
+                        <div class="strategy-item" draggable="true" ondragstart="dragRule(event)" ondragover="allowDropRule(event)" ondrop="dropRule(event)" data-strategy-id="strategy-1">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="cursor: move; font-size: 20px;">☰</span>
+                                <h3 contenteditable="true" style="flex: 1; background: none; border: none; font-size: 1.2em; color: var(--info);">Scalping Strategy</h3>
+                                <button onclick="deleteStrategy(this)" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                            </div>
+                            <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
+                                Time Frame: 1m, 5m
+                                <br>Indicators: 20 EMA, 50 EMA, RSI
+                                <br>Entry: EMA crossover with RSI confirmation
+                                <br>Target: 5-10 pips
+                                <br>Stop Loss: 5 pips
+                            </div>
+                        </div>
                         
-                        <h3>Swing Trading Strategy</h3>
-                        <p>Time Frame: 4H, Daily</p>
-                        <ul>
-                            <li>Identify key support and resistance</li>
-                            <li>Use Fibonacci retracements</li>
-                            <li>Hold positions for days to weeks</li>
-                            <li>Target: 50-200 pips</li>
-                        </ul>
+                        <div class="strategy-item" draggable="true" ondragstart="dragRule(event)" ondragover="allowDropRule(event)" ondrop="dropRule(event)" data-strategy-id="strategy-2">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="cursor: move; font-size: 20px;">☰</span>
+                                <h3 contenteditable="true" style="flex: 1; background: none; border: none; font-size: 1.2em; color: var(--info);">Swing Trading Strategy</h3>
+                                <button onclick="deleteStrategy(this)" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                            </div>
+                            <div class="editable-content" contenteditable="true" ondblclick="this.focus()">
+                                Time Frame: 4H, Daily
+                                <br>Analysis: Support/Resistance, Fibonacci
+                                <br>Entry: Bounce from key levels
+                                <br>Target: 50-200 pips
+                                <br>Hold: Days to weeks
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1547,7 +1770,7 @@
 
         function updateHeader(sectionName) {
             const titles = {
-                dashboard: { title: 'Dashboard', subtitle: 'Your Trading Overview' },
+                dashboard: { title: 'Dashboard', subtitle: 'My Trading Overview' },
                 rules: { title: 'Rules Book', subtitle: 'Your Trading Rules' },
                 playbook: { title: 'Playbook', subtitle: 'Trading Strategies' },
                 psychology: { title: 'Psychology', subtitle: 'Trading Psychology' },
@@ -1845,10 +2068,197 @@
             }, 3000);
         }
 
-        // Auto-save
-        setInterval(() => {
-            saveAllData();
-        }, 300000); // Save every 5 minutes
+        // Google Sheets Integration with better error handling
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTk8ugOtiytaRAnSSfMXoaNcpuyedFm-Ky_NWj2VpTWpE6YvpJ5_sag5p2gJcfG2KVEOIpEkFVf2CbI/pub?output=csv';
+
+        async function fetchGoogleSheetData() {
+            try {
+                showToast('Loading data from Google Sheets...', 'info');
+                
+                // Direct fetch attempt first
+                try {
+                    const directResponse = await fetch(GOOGLE_SHEET_CSV_URL, {
+                        method: 'GET',
+                        mode: 'no-cors'
+                    });
+                    
+                    // If no-cors works, we can't read the response, so load demo data
+                    loadDemoData();
+                    showToast('Loaded demo data. For live data, enable CORS in your browser.', 'info');
+                    return;
+                    
+                } catch (directError) {
+                    // Try with proxy
+                    const PROXY_URL = 'https://api.allorigins.win/raw?url=';
+                    const response = await fetch(PROXY_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL));
+                    
+                    if (!response.ok) {
+                        throw new Error('Proxy fetch failed');
+                    }
+                    
+                    const csvText = await response.text();
+                    
+                    // Parse CSV
+                    const rows = csvText.split('\n').filter(row => row.trim());
+                    const headers = parseCSVRow(rows[0]);
+                    const data = [];
+                    
+                    for (let i = 1; i < rows.length; i++) {
+                        const values = parseCSVRow(rows[i]);
+                        if (values.length > 0) {
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            data.push(row);
+                        }
+                    }
+                    
+                    updateDashboardStats(data);
+                    updateTradingTable(data);
+                    showToast('Data updated successfully!', 'success');
+                }
+                
+            } catch (error) {
+                console.error('Error fetching Google Sheet:', error);
+                // Always load demo data on error
+                loadDemoData();
+                showToast('Using demo data. Google Sheets requires CORS to be enabled.', 'warning');
+            }
+        }
+
+        function parseCSVRow(row) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            if (current) {
+                values.push(current.trim());
+            }
+            
+            return values;
+        }
+
+        function loadDemoData() {
+            const demoData = [
+                { Date: '2025-07-30', Pair: 'EUR/USD', Type: 'Buy', Entry: '1.0850', Exit: '1.0895', 'P&L': '$450' },
+                { Date: '2025-07-29', Pair: 'GBP/JPY', Type: 'Sell', Entry: '188.50', Exit: '187.80', 'P&L': '$700' },
+                { Date: '2025-07-28', Pair: 'USD/CHF', Type: 'Buy', Entry: '0.8650', Exit: '0.8620', 'P&L': '-$300' },
+                { Date: '2025-07-27', Pair: 'AUD/USD', Type: 'Sell', Entry: '0.6580', Exit: '0.6550', 'P&L': '$300' },
+                { Date: '2025-07-26', Pair: 'EUR/GBP', Type: 'Buy', Entry: '0.8600', Exit: '0.8650', 'P&L': '$500' }
+            ];
+            
+            updateDashboardStats(demoData);
+            updateTradingTable(demoData);
+        }
+
+        function updateDashboardStats(data) {
+            // Calculate total P&L
+            let totalPL = 0;
+            let winCount = 0;
+            let totalTrades = 0;
+            
+            data.forEach(trade => {
+                if (trade['P&L']) {
+                    const pl = parseFloat(trade['P&L'].replace(/[$,]/g, ''));
+                    if (!isNaN(pl)) {
+                        totalPL += pl;
+                        if (pl > 0) winCount++;
+                        totalTrades++;
+                    }
+                }
+            });
+            
+            // Update stat cards
+            const winRate = totalTrades > 0 ? ((winCount / totalTrades) * 100).toFixed(1) : 0;
+            
+            // Update Total P&L
+            const plElement = document.querySelector('.stat-value');
+            if (plElement) {
+                plElement.textContent = `${totalPL.toLocaleString()}`;
+                const changeElement = plElement.parentElement.querySelector('.stat-change');
+                if (changeElement) {
+                    changeElement.className = totalPL >= 0 ? 'stat-change' : 'stat-change negative';
+                    changeElement.innerHTML = `<span>${totalPL >= 0 ? '↑' : '↓'}</span><span>${totalPL >= 0 ? '+' : ''}${((totalPL / 10000) * 100).toFixed(1)}% overall</span>`;
+                }
+            }
+            
+            // Update Win Rate
+            const statCards = document.querySelectorAll('.stat-card');
+            if (statCards[1]) {
+                const winRateValue = statCards[1].querySelector('.stat-value');
+                if (winRateValue) {
+                    winRateValue.textContent = `${winRate}%`;
+                }
+            }
+            
+            // Update Active Trades (last 5 trades)
+            if (statCards[2]) {
+                const activeValue = statCards[2].querySelector('.stat-value');
+                if (activeValue) {
+                    activeValue.textContent = Math.min(data.length, 5);
+                }
+            }
+        }
+
+        function updateTradingTable(data) {
+            const tbody = document.getElementById('tradingDataBody');
+            if (!tbody) return;
+            
+            // Show last 10 trades
+            const recentTrades = data.slice(-10).reverse();
+            
+            tbody.innerHTML = recentTrades.map(trade => {
+                const pl = parseFloat(trade['P&L']?.replace(/[$,]/g, '') || 0);
+                const plClass = pl >= 0 ? 'trade-profit' : 'trade-loss';
+                
+                return `
+                    <tr>
+                        <td>${trade['Date'] || '-'}</td>
+                        <td>${trade['Pair'] || '-'}</td>
+                        <td>${trade['Type'] || '-'}</td>
+                        <td>${trade['Entry'] || '-'}</td>
+                        <td>${trade['Exit'] || '-'}</td>
+                        <td class="${plClass}">${trade['P&L'] || '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            if (recentTrades.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No trading data available</td></tr>';
+            }
+        }
+
+        function refreshGoogleSheetData() {
+            showToast('Refreshing data...', 'info');
+            fetchGoogleSheetData();
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(fetchGoogleSheetData, 300000);
+
+        // Load Google Sheets data on dashboard load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Existing code...
+            
+            // Load Google Sheets data when dashboard is shown
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                setTimeout(fetchGoogleSheetData, 1000);
+            }
+        });
 
         // Handle window resize
         window.addEventListener('resize', () => {
