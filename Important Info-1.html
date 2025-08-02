@@ -3,968 +3,1050 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD Elite Trading Masterclass</title>
+    <title>XAUUSD 4H Behavior Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 48, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
-            color: #ffffff;
-            line-height: 1.7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #B8860B 100%);
+            color: #1a1a1a;
+            min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.03) 50%, transparent 70%),
-                linear-gradient(-45deg, transparent 30%, rgba(0, 212, 255, 0.03) 50%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
+        
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 20px;
         }
-
-        .hero-section {
+        
+        .header {
             text-align: center;
-            padding: 100px 0;
-            position: relative;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 40, 0.9) 100%);
-            border-radius: 0 0 50px 50px;
-            margin-bottom: 60px;
-            overflow: hidden;
+            margin-bottom: 40px;
+            background: rgba(0,0,0,0.8);
+            color: #FFD700;
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                conic-gradient(from 0deg at 50% 50%, 
-                    transparent 0deg, 
-                    rgba(255, 215, 0, 0.1) 60deg, 
-                    transparent 120deg,
-                    rgba(0, 212, 255, 0.1) 180deg,
-                    transparent 240deg,
-                    rgba(255, 119, 48, 0.1) 300deg,
-                    transparent 360deg);
-            animation: rotate 20s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 25%, #FF6347 50%, #00d4ff 75%, #9333ea 100%);
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
-            text-shadow: none;
-            position: relative;
         }
-
-        .hero-subtitle {
-            font-size: 1.6rem;
-            font-weight: 300;
-            color: #a0a0a0;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 400;
-        }
-
-        .premium-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #000;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 700;
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
             margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            padding: 10px;
+            flex-wrap: wrap;
         }
-
-        .section {
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.08) 0%, 
-                rgba(255, 255, 255, 0.02) 50%,
-                rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.05), 
-                transparent);
-            transition: left 0.8s ease;
-        }
-
-        .section:hover::before {
-            left: 100%;
-        }
-
-        .section:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFD700 0%, #00d4ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 35px;
-            text-align: center;
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, #00d4ff, #9333ea);
-            border-radius: 2px;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .premium-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .premium-card {
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 25px;
-            padding: 35px;
-            position: relative;
-            overflow: hidden;
+        
+        .tab {
+            padding: 15px 25px;
+            margin: 5px;
+            background: transparent;
+            border: 2px solid #FFD700;
+            color: #FFD700;
+            cursor: pointer;
+            border-radius: 10px;
             transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: bold;
         }
-
-        .premium-card::before {
+        
+        .tab.active {
+            background: #FFD700;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+        
+        .tab:hover {
+            background: rgba(255,215,0,0.2);
+            transform: translateY(-1px);
+        }
+        
+        .content {
+            display: none;
+            animation: slideIn 0.5s ease-in;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #FFD700;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #FFD700, #00d4ff, #9333ea);
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
         }
-
-        .premium-card:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.15) 0%, 
-                rgba(255, 255, 255, 0.08) 100%);
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255,215,0,0.3);
         }
-
-        .card-icon {
-            font-size: 3rem;
+        
+        .card h3 {
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            display: block;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
             color: #FFD700;
-            margin-bottom: 15px;
+            text-align: center;
         }
-
-        .sniper-strategy {
-            background: linear-gradient(135deg, 
-                rgba(0, 212, 255, 0.15) 0%, 
-                rgba(147, 51, 234, 0.15) 100%);
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 25px;
-            padding: 40px;
-            margin: 30px 0;
-            position: relative;
-            overflow: hidden;
+        
+        .manipulation-list {
+            list-style: none;
+            padding: 0;
         }
-
-        .sniper-strategy::before {
-            content: '🎯';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            opacity: 0.3;
-        }
-
-        .strategy-step {
-            display: flex;
-            align-items: flex-start;
-            margin: 25px 0;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            border-left: 4px solid;
-            border-image: linear-gradient(135deg, #FFD700, #00d4ff) 1;
+        
+        .manipulation-list li {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.1));
+            margin: 12px 0;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #FFD700;
             transition: all 0.3s ease;
+        }
+        
+        .manipulation-list li:hover {
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.2));
+            transform: translateX(5px);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 450px;
+            margin: 25px 0;
+            background: rgba(0,0,0,0.9);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #FFD700;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            border: 3px solid #FF4757;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .session-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .session-card {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #FFD700;
+            text-align: center;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .session-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.4);
+        }
+        
+        .volatility-meter {
+            width: 100%;
+            height: 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
             position: relative;
         }
-
-        .strategy-step:hover {
-            background: rgba(0, 0, 0, 0.4);
-            transform: translateX(10px);
+        
+        .volatility-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00FF00, #FFD700, #FF6B6B);
+            border-radius: 15px;
+            transition: width 1s ease;
+            position: relative;
         }
-
-        .step-number {
+        
+        .volatility-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .time-analysis {
+            background: rgba(0,0,0,0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #FFD700;
+            color: #fff;
+        }
+        
+        .key-levels {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .level {
             background: linear-gradient(135deg, #FFD700, #FFA500);
             color: #000;
-            width: 45px;
-            height: 45px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 10px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+        
+        .manipulation-pattern {
+            background: linear-gradient(135deg, rgba(255,107,107,0.9), rgba(255,165,0,0.9));
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            color: #fff;
+            border: 2px solid #FF6B6B;
+        }
+        
+        .pattern-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .step-number {
+            background: #FFD700;
+            color: #000;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            margin: 0 auto 10px;
+            font-weight: bold;
         }
-
-        .advanced-secrets {
-            background: linear-gradient(135deg, 
-                rgba(147, 51, 234, 0.2) 0%, 
-                rgba(255, 119, 48, 0.2) 100%);
-            border: 2px solid rgba(147, 51, 234, 0.4);
-            border-radius: 25px;
-            padding: 35px;
-            margin: 30px 0;
-        }
-
-        .secret-item {
-            background: rgba(0, 0, 0, 0.4);
+        
+        .protection-tips {
+            background: linear-gradient(135deg, #00D2D3, #0FB9DA);
             border-radius: 15px;
             padding: 25px;
-            margin: 20px 0;
-            border-left: 4px solid #9333ea;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .secret-item:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: translateX(8px);
-            border-left-color: #FFD700;
-        }
-
-        .secret-item::before {
-            content: '💎';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            opacity: 0.6;
-        }
-
-        .pro-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .do-card {
-            background: linear-gradient(135deg, 
-                rgba(34, 197, 94, 0.2) 0%, 
-                rgba(34, 197, 94, 0.05) 100%);
-            border: 2px solid rgba(34, 197, 94, 0.4);
-            border-radius: 25px;
-            padding: 35px;
-            position: relative;
-        }
-
-        .dont-card {
-            background: linear-gradient(135deg, 
-                rgba(239, 68, 68, 0.2) 0%, 
-                rgba(239, 68, 68, 0.05) 100%);
-            border: 2px solid rgba(239, 68, 68, 0.4);
-            border-radius: 25px;
-            padding: 35px;
-            position: relative;
-        }
-
-        .highlight {
-            color: #FFD700;
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        }
-
-        .accent-blue {
-            color: #00d4ff;
-            font-weight: 600;
-        }
-
-        .accent-purple {
-            color: #9333ea;
-            font-weight: 600;
-        }
-
-        .accent-orange {
-            color: #ff7730;
-            font-weight: 600;
-        }
-
-        .premium-tip {
-            background: linear-gradient(135deg, 
-                rgba(255, 215, 0, 0.15) 0%, 
-                rgba(255, 165, 0, 0.15) 100%);
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            border-radius: 20px;
-            padding: 30px;
             margin: 25px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .premium-tip::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-        }
-
-        .footer-premium {
-            text-align: center;
-            padding: 60px 0;
-            background: linear-gradient(135deg, 
-                rgba(0, 0, 0, 0.8) 0%, 
-                rgba(20, 20, 40, 0.9) 100%);
-            border-radius: 50px 50px 0 0;
-            margin-top: 60px;
-            position: relative;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 25px;
-            background: linear-gradient(145deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FFD700, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .interactive-element {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .interactive-element:hover {
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 0 20px; }
-            .section { padding: 30px 20px; }
-            .pro-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 2.5rem; }
-            .section-title { font-size: 2.2rem; }
-        }
-
-        .pulse-glow {
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
-            }
-        }
-
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            color: #fff;
+            border: 2px solid #00A8CC;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="hero-section">
-            <div class="premium-badge">Elite Trader Masterclass</div>
-            <h1 class="hero-title">XAUUSD Professional Trading Academy</h1>
-            <p class="hero-subtitle">Advanced Sniper Entry System & Institutional Trading Secrets</p>
-            <p class="hero-description">
-                Unlock the professional strategies used by elite traders to consistently profit from Gold markets
-            </p>
+        <div class="header">
+            <h1>🏆 XAUUSD - 4H চার্ট মাস্টারি</h1>
+            <p>গোল্ডের ৪ ঘন্টা টাইমফ্রেমে ইনস্টিটিউশনাল ম্যানিপুলেশন ও ট্রেডিং প্যাটার্ন</p>
         </div>
-
-        <div class="section floating">
-            <h2 class="section-title">🎯 Advanced Sniper Entry Model</h2>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">৪H ওভারভিউ</button>
+            <button class="tab" onclick="showTab('sessions')">সেশন এনালাইসিস</button>
+            <button class="tab" onclick="showTab('manipulation')">ম্যানিপুলেশন প্যাটার্ন</button>
+            <button class="tab" onclick="showTab('liquidity')">লিকুইডিটি হান্টিং</button>
+            <button class="tab" onclick="showTab('strategies')">৪H ট্রেডিং কৌশল</button>
+            <button class="tab" onclick="showTab('protection')">সুরক্ষা কৌশল</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="content active">
+            <div class="warning">
+                ⚠️ <strong>গুরুত্বপূর্ণ:</strong> গোল্ড সবচেয়ে বেশি ম্যানিপুলেটেড মার্কেট। ৪H চার্টে ইনস্টিটিউশনাল প্লেয়াররা সবচেয়ে বেশি সক্রিয়।
+            </div>
             
-            <div class="sniper-strategy pulse-glow">
-                <h3 style="color: #00d4ff; font-size: 1.8rem; margin-bottom: 25px;">
-                    Institutional-Grade XAUUSD Entry System
-                </h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>🕐 ৪H টাইমফ্রেমের বিশেষত্ব</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>সেশন ওভারল্যাপ:</strong> London-NY সবচেয়ে বিপজ্জনক</li>
+                        <li><strong>ইকোনমিক ইভেন্ট:</strong> NFP, CPI, FOMC এর প্রভাব</li>
+                        <li><strong>ব্যাংক অর্ডার:</strong> 00:00, 08:00, 13:00, 17:00 GMT</li>
+                        <li><strong>স্মার্ট মানি:</strong> রিটেইলের বিপরীতে মুভ</li>
+                    </ul>
+                </div>
                 
-                <div class="strategy-step interactive-element">
-                    <div class="step-number">1</div>
-                    <div>
-                        <strong class="highlight">Market Structure Analysis:</strong><br>
-                        <span class="accent-blue">Higher Timeframe Bias:</span> Daily/Weekly chart এ <strong>Order Flow</strong> identify করুন। 
-                        <span class="accent-purple">Break of Structure (BOS)</span> এবং <span class="accent-orange">Change of Character (CHoCH)</span> 
-                        spot করে market direction confirm করুন।
-                    </div>
-                </div>
-
-                <div class="strategy-step interactive-element">
-                    <div class="step-number">2</div>
-                    <div>
-                        <strong class="highlight">Liquidity Mapping:</strong><br>
-                        <span class="accent-blue">Equal Highs/Lows,</span> <span class="accent-purple">Previous Day High/Low,</span> 
-                        <span class="accent-orange">Asian Session Range</span> এবং <strong>Psychological Levels</strong> 
-                        (1900, 1950, 2000) identify করুন যেখানে <strong>Stop Hunts</strong> হতে পারে।
-                    </div>
-                </div>
-
-                <div class="strategy-step interactive-element">
-                    <div class="step-number">3</div>
-                    <div>
-                        <strong class="highlight">Smart Money Confluence:</strong><br>
-                        <span class="accent-blue">Premium/Discount Arrays:</span> Fibonacci 0.618-0.79 (Premium), 0.21-0.382 (Discount), 
-                        <span class="accent-purple">Order Blocks,</span> <span class="accent-orange">Fair Value Gaps (FVG),</span> 
-                        এবং <strong>Breaker Blocks</strong> এর confluence zone খুঁজুন।
-                    </div>
-                </div>
-
-                <div class="strategy-step interactive-element">
-                    <div class="step-number">4</div>
-                    <div>
-                        <strong class="highlight">Entry Trigger Mechanism:</strong><br>
-                        <span class="accent-blue">5M Timeframe:</span> <strong>Inducement → Displacement → Mitigation</strong> pattern। 
-                        <span class="accent-purple">Market Maker Buy/Sell Model</span> confirm করে 
-                        <span class="accent-orange">Optimal Trade Entry (OTE)</span> নিন।
-                    </div>
-                </div>
-
-                <div class="strategy-step interactive-element">
-                    <div class="step-number">5</div>
-                    <div>
-                        <strong class="highlight">Advanced Risk Management:</strong><br>
-                        <span class="accent-blue">Stop Loss:</span> Structure এর opposite side এ (10-15 pips)। 
-                        <span class="accent-purple">Partial Profits:</span> 1:1.5, 1:2, 1:3 এ scale out। 
-                        <span class="accent-orange">Risk Per Trade:</span> Account এর 1-2% maximum।
-                    </div>
+                <div class="card">
+                    <h3>🎯 ৪H চার্টে প্রধান ফাঁদ</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>ফলস ব্রেকআউট:</strong> সাপোর্ট/রেসিস্ট্যান্স ভাঙার ভান</li>
+                        <li><strong>স্টপ লস হান্টিং:</strong> রাউন্ড নাম্বারে ফাঁদ</li>
+                        <li><strong>লিকুইডিটি গ্র্যাব:</strong> হাই/লো ভেঙে রিভার্স</li>
+                        <li><strong>নিউজ ট্র্যাপ:</strong> নিউজের আগে-পরে হুইপসা</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">💎 Elite Trading Secrets</h2>
             
-            <div class="advanced-secrets">
-                <h3 style="color: #9333ea; font-size: 1.6rem; margin-bottom: 25px;">
-                    🔥 Advanced Techniques যা সবাই জানে না
-                </h3>
+            <div class="chart-container">
+                <canvas id="goldBehaviorChart"></canvas>
+            </div>
+            
+            <div class="key-levels">
+                <div class="level">$2000</div>
+                <div class="level">$2100</div>
+                <div class="level">$2200</div>
+                <div class="level">$2300</div>
+                <div class="level">$2400</div>
+                <div class="level">$2500</div>
+            </div>
+        </div>
+        
+        <!-- Sessions Tab -->
+        <div id="sessions" class="content">
+            <div class="time-analysis">
+                <h3>⏰ ৪H চার্টে GMT টাইম এনালাইসিস</h3>
+                <p>প্রতিটি ৪H ক্যান্ডেল নির্দিষ্ট সেশনের আচরণ প্রতিফলিত করে:</p>
+            </div>
+            
+            <div class="session-grid">
+                <div class="session-card">
+                    <h4>🌅 সিডনি সেশন</h4>
+                    <p><strong>20:00-04:00 GMT</strong></p>
+                    <div class="volatility-meter">
+                        <div class="volatility-fill" style="width: 30%"></div>
+                    </div>
+                    <p>কম ভলিউম, সাইডওয়েজ মুভমেন্ট</p>
+                    <small>ম্যানিপুলেশন: নূন্যতম</small>
+                </div>
                 
-                <div class="secret-item">
-                    <strong class="accent-purple">Institutional Order Flow Reading:</strong><br>
-                    <span class="highlight">Volume Profile</span> দেখে <strong>Point of Control (POC)</strong> identify করুন। 
-                    High Volume Node এ <span class="accent-blue">Support/Resistance</span> strongest হয়। 
-                    <span class="accent-orange">Low Volume Areas</span> তে price দ্রুত move করে।
+                <div class="session-card">
+                    <h4>🌸 টোকিও সেশন</h4>
+                    <p><strong>00:00-08:00 GMT</strong></p>
+                    <div class="volatility-meter">
+                        <div class="volatility-fill" style="width: 45%"></div>
+                    </div>
+                    <p>এশিয়ান সেন্ট্রাল ব্যাংক সক্রিয়</p>
+                    <small>ম্যানিপুলেশন: মাঝারি</small>
                 </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Smart Money Concepts (SMC):</strong><br>
-                    <span class="highlight">Wyckoff Method</span> apply করুন। <strong>Accumulation Phase</strong> এ buy, 
-                    <strong>Distribution Phase</strong> এ sell। <span class="accent-blue">Spring/Upthrust</span> 
-                    pattern গুলো <span class="accent-orange">False Breakout</span> indicate করে।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Session-Based Algorithm:</strong><br>
-                    <span class="highlight">London Kill Zone (8-10 AM GMT):</span> Major moves হয়। 
-                    <span class="accent-blue">New York Kill Zone (1-3 PM GMT):</span> Reversal probable। 
-                    <span class="accent-orange">Asian Session:</span> Range-bound, breakout এর জন্য wait করুন।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Correlation Analysis:</strong><br>
-                    <span class="highlight">DXY Inverse Correlation:</span> DXY up = Gold down (85% accuracy)। 
-                    <span class="accent-blue">Bond Yields (TNX):</span> Rising yields = Gold bearish। 
-                    <span class="accent-orange">SPX Correlation:</span> Risk-off sentiment এ Gold bullish।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Advanced News Trading:</strong><br>
-                    <span class="highlight">Non-Farm Payroll (NFP):</span> 15 minutes before close all positions। 
-                    <span class="accent-blue">CPI Data:</span> Pre-positioning 1 hour আগে। 
-                    <span class="accent-orange">Fed Speeches:</span> Hawkish tone = Gold negative, Dovish = Positive।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Psychological Level Trading:</strong><br>
-                    <span class="highlight">Round Numbers:</span> 1900, 1950, 2000 এ strong reaction। 
-                    <span class="accent-blue">Double/Triple Zeros:</span> 1.900, 2.000 institutional levels। 
-                    <span class="accent-orange">Fibonacci Extensions:</span> 1.618, 2.618 major target zones।
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">⚡ Advanced Risk Management System</h2>
-            
-            <div class="premium-grid">
-                <div class="premium-card">
-                    <span class="card-icon">🛡️</span>
-                    <h3 class="card-title">Cut Loss Strategy</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">✅ <strong class="accent-blue">Kelly Criterion:</strong> Optimal position sizing formula</li>
-                        <li style="margin: 12px 0;">✅ <strong class="accent-purple">ATR-Based Stops:</strong> Volatility adjusted SL</li>
-                        <li style="margin: 12px 0;">✅ <strong class="accent-orange">Time-Based Exit:</strong> 4H rule implementation</li>
-                        <li style="margin: 12px 0;">✅ <strong class="highlight">Structure Break:</strong> Immediate exit protocol</li>
-                    </ul>
-                </div>
-
-                <div class="premium-card">
-                    <span class="card-icon">🚀</span>
-                    <h3 class="card-title">Run Profit Technique</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">🎯 <strong class="accent-blue">Trailing Algorithm:</strong> 20% of ATR trailing</li>
-                        <li style="margin: 12px 0;">🎯 <strong class="accent-purple">Scale-Out System:</strong> 25%-50%-25% method</li>
-                        <li style="margin: 12px 0;">🎯 <strong class="accent-orange">Trend Following:</strong> Add positions on pullbacks</li>
-                        <li style="margin: 12px 0;">🎯 <strong class="highlight">Momentum Exit:</strong> RSI divergence signals</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">📊 Professional Do's & Don'ts</h2>
-            
-            <div class="pro-grid">
-                <div class="do-card">
-                    <h3 style="color: #22c55e; font-size: 1.8rem; margin-bottom: 25px; text-align: center;">
-                        ✅ Elite Trader Habits
-                    </h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 15px 0;">📊 <strong class="accent-blue">Multi-Timeframe Analysis:</strong> Monthly → Weekly → Daily → H4 → H1</li>
-                        <li style="margin: 15px 0;">📝 <strong class="accent-purple">Trading Journal:</strong> Screenshot, reasoning, outcome record</li>
-                        <li style="margin: 15px 0;">⏰ <strong class="accent-orange">Session Trading:</strong> London/NY overlap focus</li>
-                        <li style="margin: 15px 0;">💰 <strong class="highlight">Position Sizing:</strong> Fixed fractional method use</li>
-                        <li style="margin: 15px 0;">📚 <strong class="accent-blue">Backtesting:</strong> 1000+ trades data analysis</li>
-                        <li style="margin: 15px 0;">🧘 <strong class="accent-purple">Psychology Work:</strong> Meditation + mental training</li>
-                        <li style="margin: 15px 0;">📈 <strong class="accent-orange">Market Research:</strong> COT reports weekly review</li>
-                        <li style="margin: 15px 0;">🎯 <strong class="highlight">Plan Execution:</strong> No deviation from strategy</li>
-                    </ul>
-                </div>
-
-                <div class="dont-card">
-                    <h3 style="color: #ef4444; font-size: 1.8rem; margin-bottom: 25px; text-align: center;">
-                        ❌ Retail Trader Mistakes
-                    </h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-blue">Revenge Trading:</strong> Emotional decision making</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-purple">Over-Leveraging:</strong> More than 2% risk per trade</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-orange">FOMO Entry:</strong> Chasing price movements</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="highlight">News Blindness:</strong> Trading during high impact news</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-blue">Multiple Positions:</strong> Same pair correlation trading</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-purple">No Stop Loss:</strong> "Let it ride" mentality</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="accent-orange">Strategy Hopping:</strong> Changing systems frequently</li>
-                        <li style="margin: 15px 0;">🚫 <strong class="highlight">Weekend Gaps:</strong> Holding through market close</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">🏆 Professional Trading Statistics</h2>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">1:3</div>
-                    <p style="color: #888; margin-top: 10px;">Minimum Risk:Reward Ratio</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">65%</div>
-                    <p style="color: #888; margin-top: 10px;">Professional Win Rate</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">2%</div>
-                    <p style="color: #888; margin-top: 10px;">Maximum Risk Per Trade</p>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">20%</div>
-                    <p style="color: #888; margin-top: 10px;">Monthly Target Return</p>
-                </div>
-            </div>
-
-            <div class="premium-tip">
-                <h3 style="color: #FFD700; margin-bottom: 20px;">🎯 Elite Performance Metrics</h3>
-                <p style="font-size: 1.1rem; line-height: 1.8;">
-                    <strong class="accent-blue">Sharpe Ratio:</strong> 2.5+ maintain করুন professional performance এর জন্য।<br>
-                    <strong class="accent-purple">Maximum Drawdown:</strong> 10% এর বেশি কখনো allow করবেন না।<br>
-                    <strong class="accent-orange">Profit Factor:</strong> 1.5+ ratio maintain করে consistent profitability ensure করুন।
-                </p>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">💎 Institutional Trading Secrets</h2>
-            
-            <div class="advanced-secrets">
-                <h3 style="color: #9333ea; font-size: 1.6rem; margin-bottom: 25px;">
-                    🔮 Hidden Market Mechanics যা Retail Traders জানে না
-                </h3>
                 
-                <div class="secret-item">
-                    <strong class="accent-purple">Algorithm Detection Patterns:</strong><br>
-                    <span class="highlight">HFT Algorithms</span> 15-second intervals এ operate করে। 
-                    <strong>Sudden Volume Spikes</strong> without price movement = <span class="accent-blue">Iceberg Orders</span>। 
-                    <span class="accent-orange">Repeated Price Rejections</span> same level এ = institutional accumulation/distribution।
+                <div class="session-card">
+                    <h4>🏛️ লন্ডন সেশন</h4>
+                    <p><strong>08:00-16:00 GMT</strong></p>
+                    <div class="volatility-meter">
+                        <div class="volatility-fill" style="width: 85%"></div>
+                    </div>
+                    <p>সবচেয়ে বেশি ভলিউম ও ভোলাটিলিটি</p>
+                    <small>ম্যানিপুলেশন: <span style="color: #FF6B6B;">সর্বোচ্চ</span></small>
                 </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Central Bank Intervention Signals:</strong><br>
-                    <span class="highlight">Coordinated Moves:</span> Multiple currency pairs একসাথে move = CB intervention। 
-                    <span class="accent-blue">Unusual Volume</span> at off-market hours = institutional positioning। 
-                    <span class="accent-orange">Gold Futures vs Spot</span> divergence = manipulation indication।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Options Flow Analysis:</strong><br>
-                    <span class="highlight">Put/Call Ratio:</span> 1.2+ = extreme bearishness, 0.7- = extreme bullishness। 
-                    <span class="accent-blue">Max Pain Theory:</span> Options expiry তে price max pain level এ gravitates। 
-                    <span class="accent-orange">Gamma Squeeze:</strong> Large options positions price acceleration cause করে।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Seasonal Trading Patterns:</strong><br>
-                    <span class="highlight">January Effect:</span> New Year এ institutional repositioning। 
-                    <span class="accent-blue">Summer Doldrums:</span> July-August low volatility period। 
-                    <span class="accent-orange">Year-End Flows:</span> December tax selling এবং window dressing।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Intermarket Analysis:</strong><br>
-                    <span class="highlight">Copper/Gold Ratio:</span> Economic growth indicator (rising = risk-on)। 
-                    <span class="accent-blue">Gold/Silver Ratio:</strong> 80+ = market stress, 60- = risk appetite। 
-                    <span class="accent-orange">VIX Correlation:</span> VIX spike = Gold rally (flight to safety)।
-                </div>
-
-                <div class="secret-item">
-                    <strong class="accent-purple">Advanced Entry Techniques:</strong><br>
-                    <span class="highlight">Turtle Soup Pattern:</span> False breakout reversal strategy। 
-                    <span class="accent-blue">Gap Fill Theory:</strong> 90% gaps eventually get filled। 
-                    <span class="accent-orange">Pivot Point Confluence:</span> Weekly/Monthly pivots high probability zones।
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">🧠 Professional Psychology & Habits</h2>
-            
-            <div class="premium-grid">
-                <div class="premium-card">
-                    <span class="card-icon">🌅</span>
-                    <h3 class="card-title">Morning Routine Protocol</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">⏰ <strong class="accent-blue">5:30 AM:</strong> Market recap এবং economic calendar review</li>
-                        <li style="margin: 12px 0;">📊 <strong class="accent-purple">6:00 AM:</strong> Multi-timeframe analysis এবং key levels marking</li>
-                        <li style="margin: 12px 0;">📝 <strong class="accent-orange">6:30 AM:</strong> Daily trading plan এবং risk parameters set</li>
-                        <li style="margin: 12px 0;">🧘 <strong class="highlight">7:00 AM:</strong> 15-minute meditation এবং visualization</li>
-                    </ul>
-                </div>
-
-                <div class="premium-card">
-                    <span class="card-icon">🧠</span>
-                    <h3 class="card-title">Mental Training Techniques</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">🎯 <strong class="accent-blue">Visualization:</strong> Successful trade scenarios mental rehearsal</li>
-                        <li style="margin: 12px 0;">💪 <strong class="accent-purple">Stress Testing:</strong> Demo account এ extreme scenarios practice</li>
-                        <li style="margin: 12px 0;">📚 <strong class="accent-orange">Continuous Learning:</strong> Weekly 10 hours market study</li>
-                        <li style="margin: 12px 0;">🔄 <strong class="highlight">Performance Review:</strong> Monthly deep analysis sessions</li>
-                    </ul>
-                </div>
-
-                <div class="premium-card">
-                    <span class="card-icon">⚙️</span>
-                    <h3 class="card-title">Technology Stack</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">💻 <strong class="accent-blue">TradingView Pro:</strong> Advanced charting এবং alerts</li>
-                        <li style="margin: 12px 0;">📱 <strong class="accent-purple">Economic Calendar:</strong> ForexFactory premium notifications</li>
-                        <li style="margin: 12px 0;">📊 <strong class="accent-orange">Volume Analysis:</strong> BookMap বা similar tools</li>
-                        <li style="margin: 12px 0;">🤖 <strong class="highlight">Trade Copier:</strong> Multiple account management</li>
-                    </ul>
-                </div>
-
-                <div class="premium-card">
-                    <span class="card-icon">📈</span>
-                    <h3 class="card-title">Performance Tracking</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 12px 0;">📊 <strong class="accent-blue">Edgewonk:</strong> Advanced trading journal software</li>
-                        <li style="margin: 12px 0;">📉 <strong class="accent-purple">MyFXBook:</strong> Public performance tracking</li>
-                        <li style="margin: 12px 0;">📋 <strong class="accent-orange">Excel Dashboard:</strong> Custom metrics tracking</li>
-                        <li style="margin: 12px 0;">🎯 <strong class="highlight">Goal Setting:</strong> Monthly/Quarterly targets</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">⚠️ Critical Missing Elements</h2>
-            
-            <div class="premium-tip pulse-glow">
-                <h3 style="color: #ff4757; margin-bottom: 20px;">🚨 যেসব Advanced Concepts আপনি Miss করতে পারেন</h3>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 25px;">
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">📊 Commitment of Traders (COT) Reports:</strong><br>
-                        Weekly positioning data analyze করুন। <span class="accent-blue">Commercial Hedgers</span> contrarian indicator, 
-                        <span class="accent-purple">Large Speculators</span> trend following indicator হিসেবে কাজ করে।
+                <div class="session-card">
+                    <h4>🗽 নিউইয়র্ক সেশন</h4>
+                    <p><strong>13:00-21:00 GMT</strong></p>
+                    <div class="volatility-meter">
+                        <div class="volatility-fill" style="width: 90%"></div>
                     </div>
-                    
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">🌍 Cross-Currency Analysis:</strong><br>
-                        <span class="accent-blue">XAUEUR, XAUGBP, XAUJPY</span> এর relative strength compare করুন। 
-                        Currency weakness Gold strength indicate করতে পারে।
+                    <p>ফেড নীতি ও US ডেটার প্রভাব</p>
+                    <small>ম্যানিপুলেশন: <span style="color: #FF6B6B;">অত্যধিক</span></small>
+                </div>
+                
+                <div class="session-card">
+                    <h4>⚡ লন্ডন-নিউইয়র্ক ওভারল্যাপ</h4>
+                    <p><strong>13:00-16:00 GMT</strong></p>
+                    <div class="volatility-meter">
+                        <div class="volatility-fill" style="width: 100%"></div>
                     </div>
-                    
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">⚡ Market Microstructure:</strong><br>
-                        <span class="accent-blue">Bid-Ask Spread</span> widening = liquidity crisis। 
-                        <span class="accent-purple">Order Book Depth</span> analysis করে major support/resistance levels predict করুন।
+                    <p>সবচেয়ে বিপজ্জনক ৩ ঘন্টা</p>
+                    <small>ম্যানিপুলেশন: <span style="color: #FF0000;">চরম</span></small>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="sessionVolatilityChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Manipulation Tab -->
+        <div id="manipulation" class="content">
+            <div class="manipulation-pattern">
+                <h3>🎭 ৪H চার্টে ক্লাসিক ম্যানিপুলেশন প্যাটার্ন</h3>
+                <p>বিগ প্লেয়াররা কিভাবে ৪H চার্টে রিটেইল ট্রেডারদের ফাঁদে ফেলে:</p>
+                
+                <div class="pattern-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>লিকুইডিটি বিল্ডআপ</h4>
+                        <p>২-৩টি ৪H ক্যান্ডেলে রেঞ্জ তৈরি</p>
                     </div>
-                    
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">🔗 Blockchain Analytics:</strong><br>
-                        <span class="accent-blue">Bitcoin Correlation</span> increasing trend। Digital gold narrative এর impact 
-                        traditional gold demand এ monitor করুন।
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>ফলস ব্রেকআউট</h4>
+                        <p>সাপোর্ট/রেসিস্ট্যান্স ভাঙার ভান</p>
                     </div>
-                    
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">🏛️ Central Bank Reserves:</strong><br>
-                        <span class="accent-blue">Official Gold Purchases</span> quarterly track করুন। 
-                        China, Russia, India এর accumulation patterns long-term bullish signals।
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>রিটেইল ট্র্যাপ</h4>
+                        <p>ছোট ট্রেডাররা ব্রেকআউটে এন্ট্রি</p>
                     </div>
-                    
-                    <div style="background: rgba(255, 71, 87, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ff4757;">
-                        <strong class="highlight">📱 Alternative Data Sources:</strong><br>
-                        <span class="accent-blue">Google Trends,</span> <span class="accent-purple">Social Sentiment,</span> 
-                        <span class="accent-orange">Satellite Mining Data</span> use করে early signals capture করুন।
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>রিভার্সাল</h4>
+                        <p>বিপরীত দিকে শক্তিশালী মুভ</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📊 স্মার্ট মানি ইন্ডিকেটর</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>ইকুয়াল হাই/লো:</strong> লিকুইডিটি পুল</li>
+                        <li><strong>ইমব্যালেন্স:</strong> FVG (Fair Value Gap)</li>
+                        <li><strong>অর্ডার ব্লক:</strong> ইনস্টিটিউশনাল লেভেল</li>
+                        <li><strong>চোজ:</strong> সাপ্লাই/ডিমান্ড জোন</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚡ হাই ইমপ্যাক্ট ইভেন্ট</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>NFP (প্রথম শুক্রবার):</strong> ব্যাপক ভোলাটিলিটি</li>
+                        <li><strong>CPI ডেটা:</strong> ইনফ্লেশন ইমপ্যাক্ট</li>
+                        <li><strong>FOMC মিটিং:</strong> রেট সিদ্ধান্ত</li>
+                        <li><strong>জিওপলিটিক্যাল টেনশন:</strong> সেফ হ্যাভেন ডিমান্ড</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="manipulationChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Liquidity Tab -->
+        <div id="liquidity" class="content">
+            <div class="manipulation-pattern">
+                <h3>🎯 লিকুইডিটি হান্টিং প্যাটার্ন</h3>
+                <p>৪H চার্টে কিভাবে স্টপ লস শিকার করা হয়:</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🎪 রাউন্ড নাম্বার ট্র্যাপ</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>$2000, $2100, $2200:</strong> মনস্তাত্ত্বিক লেভেল</li>
+                        <li><strong>$2050, $2150:</strong> হাফ লেভেল</li>
+                        <li><strong>ডেইলি হাই/লো:</strong> লিকুইডিটি পুল</li>
+                        <li><strong>উইকলি হাই/লো:</strong> বড় স্টপ লস</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚔️ স্টপ লস হান্টিং টাইমিং</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>লন্ডন ওপেন (08:00 GMT):</strong> এশিয়ান স্টপ</li>
+                        <li><strong>নিউইয়র্ক ওপেন (13:00 GMT):</strong> ইউরোপিয়ান স্টপ</li>
+                        <li><strong>নিউজ রিলিজ:</strong> হঠাৎ স্পাইক</li>
+                        <li><strong>সেশন ক্লোজ:</strong> প্রফিট টেকিং</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="liquidityChart"></canvas>
+            </div>
+            
+            <div class="time-analysis">
+                <h3>🔍 ৪H চার্টে লিকুইডিটি সনাক্তকরণ</h3>
+                <div class="pattern-steps">
+                    <div class="step">
+                        <div class="step-number">🔴</div>
+                        <h4>বায়িং লিকুইডিটি</h4>
+                        <p>সাপোর্ট লেভেলের নিচে লং স্টপ</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">🟢</div>
+                        <h4>সেলিং লিকুইডিটি</h4>
+                        <p>রেসিস্ট্যান্স লেভেলের উপরে শর্ট স্টপ</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">⚡</div>
+                        <h4>লিকুইডিটি গ্র্যাব</h4>
+                        <p>হঠাৎ স্পাইক এবং দ্রুত রিভার্স</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="footer-premium">
-            <h3 style="color: #FFD700; font-size: 2.2rem; margin-bottom: 20px;">
-                🏆 Elite Trader Mindset
-            </h3>
-            <div style="max-width: 800px; margin: 0 auto;">
-                <p style="font-size: 1.3rem; line-height: 1.8; margin-bottom: 25px;">
-                    <span class="accent-blue">"Markets reward patience, punish greed, and respect discipline."</span>
-                </p>
-                <p style="font-size: 1.1rem; line-height: 1.8; color: #888;">
-                    Professional trading একটি <strong class="highlight">business</strong>, gambling নয়। 
-                    <span class="accent-purple">Consistent profitability</span> comes from 
-                    <span class="accent-orange">systematic approach</span> এবং 
-                    <strong class="accent-blue">emotional mastery</strong>।
-                </p>
-                <div style="margin-top: 30px; padding: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 15px;">
-                    <p style="color: #FFD700; font-weight: 600;">
-                        💎 Remember: 10% traders succeed because they treat trading as a profession, not a hobby.
-                        <br>🚀 Join the profitable minority with systematic excellence!
-                    </p>
+        
+        <!-- Strategies Tab -->
+        <div id="strategies" class="content">
+            <div class="protection-tips">
+                <h3>🏆 ৪H চার্টে সফল ট্রেডিং কৌশল</h3>
+                <p>ইনস্টিটিউশনাল প্লেয়ারদের সাথে তাল মিলিয়ে চলার উপায়</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📈 ট্রেন্ড ফলোইং কৌশল</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>20 EMA + 50 EMA:</strong> ট্রেন্ড নিশ্চিতকরণ</li>
+                        <li><strong>Structure Break:</strong> BOS (Break of Structure)</li>
+                        <li><strong>Pullback Entry:</strong> ৪H ক্লোজের পর এন্ট্রি</li>  و
+                        <li><strong>Risk Management:</strong> 1-2% রিস্ক পার ট্রেড</li>
+                    </ul>
                 </div>
+                
+                <div class="card">
+                    <h3>🎯 SMC (Smart Money Concept)</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>Order Block:</strong> ইনস্টিটিউশনাল এন্ট্রি</li>
+                        <li><strong>Fair Value Gap:</strong> ইমব্যালেন্স এরিয়া</li>
+                        <li><strong>Premium/Discount:</strong> ভ্যালু এরিয়া</li>
+                        <li><strong>Liquidity Grab:</strong> ফেক আউট পরবর্তী এন্ট্রি</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⏰ টাইম-ভিত্তিক কৌশল</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>সকাল ৮-১০টা:</strong> লন্ডন ওপেন ট্রেড</li>
+                        <li><strong>দুপুর ১-৩টা:</strong> নিউইয়র্ক ওভারল্যাপ</li>
+                        <li><strong>সন্ধ্যা ৬-৮টা:</strong> লন্ডন ক্লোজ</li>
+                        <li><strong>এড়ানো সময়:</strong> রাত ১০টা - সকাল ৬টা</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 টেকনিক্যাল ইন্ডিকেটর</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>RSI (14):</strong> ওভারবট/ওভারসোল্ড</li>
+                        <li><strong>MACD:</strong> মোমেন্টাম চেঞ্জ</li>
+                        <li><strong>Volume Profile:</strong> হাই ভলিউম এরিয়া</li>
+                        <li><strong>Fibonacci:</strong> রিট্রেসমেন্ট লেভেল</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="strategyChart"></canvas>
+            </div>
+            
+            <div class="time-analysis">
+                <h3>🎯 ৪H এন্ট্রি চেকলিস্ট</h3>
+                <div class="pattern-steps">
+                    <div class="step">
+                        <div class="step-number">✅</div>
+                        <h4>ট্রেন্ড চেক</h4>
+                        <p>HTF (Daily/Weekly) ট্রেন্ড কনফার্ম</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">✅</div>
+                        <h4>স্ট্রাকচার</h4>
+                        <p>BOS/ChoCH নিশ্চিত করুন</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">✅</div>
+                        <h4>এন্ট্রি পয়েন্ট</h4>
+                        <p>OB/FVG থেকে রিট্রেসমেন্ট</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">✅</div>
+                        <h4>রিস্ক ম্যানেজমেন্ট</h4>
+                        <p>SL, TP এবং R:R সেট করুন</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Protection Tab -->
+        <div id="protection" class="content">
+            <div class="warning">
+                🛡️ <strong>মনে রাখবেন:</strong> গোল্ডে ৯৫% রিটেইল ট্রেডার হারে। আপনি সেই ৫% এ থাকার কৌশল:
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🚫 যা কখনও করবেন না</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>নিউজ ট্রেডিং:</strong> NFP/CPI দিনে ট্রেড এড়ান</li>
+                        <li><strong>ওভার লিভারেজ:</strong> 1:100+ লিভারেজ ব্যবহার</li>
+                        <li><strong>FOMO ট্রেডিং:</strong> ব্রেকআউটে ঝাঁপ দেওয়া</li>
+                        <li><strong>রিভেঞ্জ ট্রেডিং:</strong> লস পুষিয়ে নেওয়ার চেষ্টা</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>✅ যা অবশ্যই করবেন</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>ধৈর্য:</strong> সেটআপের জন্য অপেক্ষা করুন</li>
+                        <li><strong>জার্নালিং:</strong> প্রতিটি ট্রেড রেকর্ড রাখুন</li>
+                        <li><strong>ব্যাকটেস্টিং:</strong> কৌশল পরীক্ষা করুন</li>
+                        <li><strong>কন্টিনিউয়াস লার্নিং:</strong> বাজার পড়তে থাকুন</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 ম্যানিপুলেশন এড়ানোর কৌশল</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>প্রি-মার্কেট এনালাইসিস:</strong> দিনের প্ল্যান তৈরি</li>
+                        <li><strong>মাল্টি টাইমফ্রেম:</strong> Daily, 4H, 1H চেক</li>
+                        <li><strong>ইকোনমিক ক্যালেন্ডার:</strong> ইভেন্টের আগে সতর্ক</li>
+                        <li><strong>মার্কেট সেন্টিমেন্ট:</strong> COT রিপোর্ট ফলো করুন</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💡 প্রো টিপস</h3>
+                    <ul class="manipulation-list">
+                        <li><strong>লন্ডন সেশনে সতর্ক:</strong> সবচেয়ে ট্রিকি</li>
+                        <li><strong>ফ্রাইডে এড়ান:</strong> সপ্তাহান্তে গ্যাপ ঝুঁকি</li>
+                        <li><strong>মাসের প্রথম সপ্তাহ:</strong> ইকোনমিক ডেটা হেভি</li>
+                        <li><strong>ছুটির দিন:</strong> লিকুইডিটি কম, ম্যানিপুলেশন বেশি</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="protection-tips">
+                <h3>🏆 সাকসেসফুল গোল্ড ট্রেডারের ১০টি নিয়ম</h3>
+                <div class="pattern-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>৪H ক্লোজের পর এন্ট্রি</h4>
+                        <p>কখনও ক্যান্ডেল চলার সময় এন্ট্রি না</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>স্টপ লস বাধ্যতামূলক</h4>
+                        <p>প্রতিটি ট্রেডে SL রাখুন</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>১% রিস্ক রুল</h4>
+                        <p>একাউন্টের ১% এর বেশি রিস্ক না</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>১:৩ রিস্ক রিওয়ার্ড</h4>
+                        <p>কমপক্ষে ১:৩ R:R মেইনটেইন</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="protectionChart"></canvas>
             </div>
         </div>
     </div>
-
+    
     <script>
-        // Enhanced Interactive Features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Intersection Observer for animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+        // Tab switching functionality
+        function showTab(tabName) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Gold Behavior Chart
+        const ctx1 = document.getElementById('goldBehaviorChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                datasets: [{
+                    label: 'ভোলাটিলিটি %',
+                    data: [15, 25, 85, 95, 70, 35],
+                    borderColor: '#FFD700',
+                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'ম্যানিপুলেশন রিস্ক %',
+                    data: [10, 20, 90, 100, 75, 30],
+                    borderColor: '#FF6B6B',
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'XAUUSD - ৪H ভোলাটিলিটি ও ম্যানিপুলেশন প্যাটার্ন',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
                     }
-                });
-            }, observerOptions);
-
-            // Apply observer to sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(50px)';
-                section.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                observer.observe(section);
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' }
+                    },
+                    y: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        // Session Volatility Chart
+        const ctx2 = document.getElementById('sessionVolatilityChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['সিডনি', 'টোকিও', 'লন্ডন', 'নিউইয়র্ক', 'ওভারল্যাপ'],
+                datasets: [{
+                    label: 'গড় পিপ মুভমেন্ট',
+                    data: [30, 45, 85, 90, 120],
+                    backgroundColor: [
+                        'rgba(100, 200, 255, 0.8)',
+                        'rgba(255, 100, 150, 0.8)',
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(100, 255, 100, 0.8)',
+                        'rgba(255, 100, 100, 0.8)'
+                    ],
+                    borderColor: '#FFD700',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'সেশন অনুযায়ী XAUUSD মুভমেন্ট (৪H)',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' }
+                    },
+                    y: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        // Manipulation Chart
+        const ctx3 = document.getElementById('manipulationChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'radar',
+            data: {
+                labels: ['ফলস ব্রেকআউট', 'স্টপ হান্টিং', 'নিউজ ট্র্যাপ', 'লিকুইডিটি গ্র্যাব', 'হুইপসা'],
+                datasets: [{
+                    label: 'ম্যানিপুলেশন ফ্রিকোয়েন্সি (%)',
+                    data: [85, 90, 95, 80, 75],
+                    backgroundColor: 'rgba(255, 107, 107, 0.3)',
+                    borderColor: '#FF6B6B',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#FFD700',
+                    pointBorderColor: '#000',
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'XAUUSD ৪H চার্টে ম্যানিপুলেশন টাইপ',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255,215,0,0.3)' },
+                        grid: { color: 'rgba(255,215,0,0.3)' },
+                        pointLabels: { color: '#FFD700', font: { weight: 'bold' } },
+                        ticks: { color: '#FFD700', backdropColor: 'transparent' },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        // Liquidity Chart
+        const ctx4 = document.getElementById('liquidityChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'বায়িং লিকুইডিটি',
+                    data: [
+                        {x: 2000, y: 85}, {x: 2100, y: 90}, {x: 2200, y: 95},
+                        {x: 2300, y: 88}, {x: 2400, y: 92}
+                    ],
+                    backgroundColor: 'rgba(255, 107, 107, 0.8)',
+                    borderColor: '#FF6B6B',
+                    pointRadius: 8
+                }, {
+                    label: 'সেলিং লিকুইডিটি',
+                    data: [
+                        {x: 2050, y: 80}, {x: 2150, y: 85}, {x: 2250, y: 90},
+                        {x: 2350, y: 83}, {x: 2450, y: 87}
+                    ],
+                    backgroundColor: 'rgba(100, 255, 100, 0.8)',
+                    borderColor: '#00FF00',
+                    pointRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'XAUUSD লিকুইডিটি পুল ম্যাপ',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'প্রাইস লেভেল ($)', color: '#FFD700' },
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'লিকুইডিটি ঘনত্ব (%)', color: '#FFD700' },
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        // Strategy Chart
+        const ctx5 = document.getElementById('strategyChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'doughnut',
+            data: {
+                labels: ['ট্রেন্ড ফলোইং', 'SMC কনসেপ্ট', 'সেশন ট্রেডিং', 'নিউজ এভয়েডেন্স'],
+                datasets: [{
+                    data: [40, 35, 20, 5],
+                    backgroundColor: [
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(255, 165, 0, 0.8)',
+                        'rgba(100, 255, 100, 0.8)',
+                        'rgba(255, 107, 107, 0.8)'
+                    ],
+                    borderColor: '#000',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'সফল XAUUSD ট্রেডিং কৌশল বিতরণ',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
+                    }
+                }
+            }
+        });
+        
+        // Protection Chart
+        const ctx6 = document.getElementById('protectionChart').getContext('2d');
+        new Chart(ctx6, {
+            type: 'line',
+            data: {
+                labels: ['১ম সপ্তাহ', '২য় সপ্তাহ', '৩য় সপ্তাহ', '৪র্থ সপ্তাহ'],
+                datasets: [{
+                    label: 'সাকসেস রেট (%)',
+                    data: [75, 80, 85, 90],
+                    borderColor: '#00FF00',
+                    backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                    borderWidth: 4,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'রিস্ক লেভেল (%)',
+                    data: [25, 20, 15, 10],
+                    borderColor: '#FF6B6B',
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    borderWidth: 4,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'সময়ের সাথে ট্রেডিং দক্ষতা উন্নতি',
+                        color: '#FFD700',
+                        font: { size: 18, weight: 'bold' }
+                    },
+                    legend: {
+                        labels: { color: '#fff', font: { size: 14 } }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' }
+                    },
+                    y: {
+                        ticks: { color: '#FFD700', font: { weight: 'bold' } },
+                        grid: { color: 'rgba(255,215,0,0.2)' },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        // Add interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate volatility meters
+            const volatilityFills = document.querySelectorAll('.volatility-fill');
+            volatilityFills.forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0%';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 1000);
             });
-
-            // Interactive click effects
-            document.querySelectorAll('.interactive-element').forEach(element => {
-                element.addEventListener('click', function() {
-                    this.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 200);
-                });
-            });
-
-            // Premium card hover effects
-            document.querySelectorAll('.premium-card').forEach(card => {
+            
+            // Add hover effects
+            const cards = document.querySelectorAll('.card, .session-card, .strategy-card');
+            cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.boxShadow = '0 20px 40px rgba(255, 215, 0, 0.2)';
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                    this.style.boxShadow = '0 20px 50px rgba(255,215,0,0.4)';
                 });
                 
                 card.addEventListener('mouseleave', function() {
-                    this.style.boxShadow = '';
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = 'none';
                 });
             });
-
-            // Secret item reveal effect
-            document.querySelectorAll('.secret-item').forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.background = 'rgba(147, 51, 234, 0.2)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.background = 'rgba(0, 0, 0, 0.4)';
-                });
+            
+            // Add pulse animation to key levels
+            const levels = document.querySelectorAll('.level');
+            levels.forEach((level, index) => {
+                setTimeout(() => {
+                    level.style.animation = 'pulse 2s infinite';
+                }, index * 200);
             });
-
-            // Stat counter animation
-            function animateStats() {
-                document.querySelectorAll('.stat-number').forEach(stat => {
-                    const text = stat.textContent;
-                    if (text.includes('%')) {
-                        const number = parseInt(text.replace('%', ''));
-                        let current = 0;
-                        const increment = number / 50;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= number) {
-                                current = number;
-                                clearInterval(timer);
-                            }
-                            stat.textContent = Math.floor(current) + '%';
-                        }, 50);
-                    }
-                });
-            }
-
-            // Trigger stat animation when visible
-            const statsObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateStats();
-                        statsObserver.unobserve(entry.target);
-                    }
-                });
-            });
-
-            const statsSection = document.querySelector('.stats-grid');
-            if (statsSection) {
-                statsObserver.observe(statsSection);
-            }
         });
+        
+        // Add CSS keyframes for pulse
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
